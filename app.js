@@ -10,6 +10,8 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+let employeeQuestion = [];
+
 const promptUser = () =>
   inquirer.prompt([
     {
@@ -35,15 +37,29 @@ const promptUser = () =>
     },
   ]);
   
+  function checkRole(data){
+
+      if (data.role === 'Manager'){
+        managerQ();
+      } else if (data.role === 'Intern'){
+        internQ();
+      } else {
+        engineerQ();
+      }
+    }
+
+
+
   const managerQ = () =>
   inquirer.prompt([
-// manager questions
+// manager questions NEED TO ADD THESE ALL PUSHING TO AN ARRAY 
     {
       type: 'input',
       name: 'officeNumber',
       message: 'What is the manager\'s office number?',
     },
-  ]);
+  ]).then(employeeQuestion.push(answer));
+  
 
 // engineer questions
   const engineerQ = () =>
@@ -53,7 +69,7 @@ const promptUser = () =>
       name: 'github',
       message: 'What is the engineer\s github username?',
     },
-  ]);
+  ]).then(employeeQuestion.push(answer));
 
 // intern questions 
   const internQ = () =>
@@ -63,24 +79,16 @@ const promptUser = () =>
       name: 'school',
       message: 'What school did the intern attend?',
     }
-  ]);
+  ]).then(employeeQuestion.push(answer));
 
 
-  if (data.role === 'Manager'){
-    managerQ();
-  }
 
-  if (data.role === 'Intern'){
-    internQ();
-  }
-
-  if (data.role === 'Engineer'){
-    engineerQ();
-  }
  
 promptUser()
+  checkRole()
   .then((data) => render([data]))
-  .then(() => console.log('Successfully wrote to index.html'))
+  .then(data.push(employeeQuestion))
+  .then(() => console.log('Successfully added employee!'))
   .catch((err) => console.error(err));
 
 
