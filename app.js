@@ -123,7 +123,7 @@ const addManager = () => {
       function createTeam() {
         inquirer.prompt([
           {
-            type: "checkbox",
+            type: "list",
             name: "role",
             message: "Which type of team member would you like to add?",
             choices: [
@@ -133,6 +133,7 @@ const addManager = () => {
             ]
           }
         ]).then(data => {
+          console.log(data.role);
           if (data.role === "Engineer") {
             addEngineer();
           } else if (data.role === "Intern") { 
