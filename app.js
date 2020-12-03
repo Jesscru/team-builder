@@ -10,16 +10,13 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-let employeeQuestion = [];
+let team = [];
 
-const promptUser = () =>
+
+// prompt for manager
+const addManager = () => {
   inquirer.prompt([
-    {
-      type: 'checkbox',
-      name: 'role',
-      message: 'What is type of employee are you adding?',
-      choices: ['Manager', 'Engineer', 'Intern'],
-    },
+     
     {
       type: 'input',
       name: 'name',
@@ -35,61 +32,138 @@ const promptUser = () =>
       name: 'email',
       message: 'What is the employee\'s email adress?',
     },
-  ]);
-  
-  function checkRole(data){
 
-      if (data.role === 'Manager'){
-        managerQ();
-      } else if (data.role === 'Intern'){
-        internQ();
-      } else {
-        engineerQ();
-      }
-    }
-
-
-
-  const managerQ = () =>
-  inquirer.prompt([
-// manager questions NEED TO ADD THESE ALL PUSHING TO AN ARRAY 
     {
       type: 'input',
       name: 'officeNumber',
       message: 'What is the manager\'s office number?',
-    },
-  ]).then(employeeQuestion.push(answer));
-  
-
-// engineer questions
-  const engineerQ = () =>
-    inquirer.prompt([
-    {
-      type: 'input',
-      name: 'github',
-      message: 'What is the engineer\s github username?',
-    },
-  ]).then(employeeQuestion.push(answer));
-
-// intern questions 
-  const internQ = () =>
-    inquirer.prompt([
-    {
-      type: 'input',
-      name: 'school',
-      message: 'What school did the intern attend?',
     }
-  ]).then(employeeQuestion.push(answer));
+
+    ]).then(data => {
+      createTeam();
+      // if (data.role === 'Manager'){
+        const manager = new Manager(data.name, data.id, data.email, data.officeNumber);
+        team.push(manager);
+       
+      // }
+    })
+  }
+
+
+   // prompt for Engineer
+    const addEngineer = () => {
+    inquirer.prompt([
+        
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is the employee\'s name?',
+      },
+      {
+        type: 'input',
+        name: 'id',
+        message: 'What is the employee\'s id number?',
+      },
+      {
+        type: 'input',
+        name: 'email',
+        message: 'What is the employee\'s email adress?',
+      },
+    
+      {
+        type: 'input',
+        name: 'github',
+        message: 'What is the engineer\s github username?',
+      }
+      
+      ]).then(data => {
+        createTeam();
+        // if (data.role === 'Engineer'){
+          const engineer = new Engineer(data.name, data.id, data.email, data.school);
+          team.push(engineer);
+        // }
+      })
+    }
+
+
+    // prompt for intern
+    const addIntern = () => {
+    inquirer.prompt([
+      
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is the employee\'s name?',
+      },
+      {
+        type: 'input',
+        name: 'id',
+        message: 'What is the employee\'s id number?',
+      },
+      {
+        type: 'input',
+        name: 'email',
+        message: 'What is the employee\'s email adress?',
+      },
+    
+      {
+        type: 'input',
+        name: 'school',
+        message: 'What school did the intern attend?',
+      }
+
+      ]).then(data => {
+        createTeam();
+          const intern = new Intern(data.name, data.id, data.email, data.school);
+          team.push(intern);
+      })
+    }
+   
+  // after manager, asks what other employee is to be made. Leaves function if none, starts other prompts if intern or engineer
+      function createTeam() {
+        inquirer.prompt([
+          {
+            type: "checkbox",
+            name: "role",
+            message: "Which type of team member would you like to add?",
+            choices: [
+              "Engineer",
+              "Intern",
+              "I don't want to add any more team members"
+            ]
+          }
+        ]).then(data => {
+          if (data.role === "Engineer") {
+            addEngineer();
+          } else if (data.role === "Intern") { 
+            addIntern();
+           } else {
+            buildTeam();
+          }
+        });
+      }
+    
+
+  addManager();
+
+  function buildTeam(){
+    if (!fs.existsSync(OUTPUT_DIR)){
+      fs.mkdirSync(OUTPUT_DIR)
+    }
+    fs.writeFileSync(outputPath, render(team));
+  }
+
+
+ 
+  // .then(buildTeam())
+  // .catch((err) => console.error(err));
+
+
 
 
 
  
-promptUser()
-  checkRole()
-  .then((data) => render([data]))
-  .then(data.push(employeeQuestion))
-  .then(() => console.log('Successfully added employee!'))
-  .catch((err) => console.error(err));
+
 
 
 
