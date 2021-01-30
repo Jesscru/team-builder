@@ -12,9 +12,7 @@
 
 ## Installation
   
-One can fork from this repository and clone it to their machine. From there, the program can be initated from the terminal with "node app.js". Below is a demonstration of how to begin using the app following the fork and clone of the repository to one's local machine. 
-
-![video of app installation and usage](./Assets/team-builder-demo.mp4)
+One can fork from this repository and clone it to their machine. From there, the app can be initated from the terminal with "node app.js". There is also a demonstration video in this repository; however, the video can also be accessed via this link: https://drive.google.com/file/d/1D3v7PBatGAIEUko7hjztmr01LOBO8Yjd/view. 
 
 
 ## Usage 
