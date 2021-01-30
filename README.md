@@ -33,3 +33,15 @@ The app was created using [Node.js](Nodejs.org).
 
 This project has an MIT license. 
 
+## Contributing
+
+I welcome any ideas anyone might have to contribute to this project. Please reach me at the email below if you have suggestions or ideas you'd like to add to the project. 
+
+## Questions 
+
+Github username: jesscru
+
+Github repository page: github.com/jesscru
+
+If you have additonal questions or comments you can reach me at my email: jessicacrump7@gmail.com
+
